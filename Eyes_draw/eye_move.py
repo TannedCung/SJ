@@ -1,4 +1,4 @@
-from Eyes_draw.eye_draw import *
+from eye_draw import *
 import cv2
 import numpy as np
 from time import sleep, time
@@ -167,8 +167,9 @@ class Move():
         cv2.imshow("test", self.img)
 
 
-"""
+
 a = Move()
+# a.change_mood(0)
 i=170
 back = False
 def test():
@@ -177,23 +178,25 @@ def test():
     while i<=420:
         # max range X is (190, 290)
         # max range Y is (90, 230 )
-        trace_pos = (i, i/2) if back else (i, 2*i/3)
+        trace_pos = (random.randrange(0,480), random.randrange(0,480), 50, 50) # if back else (240,160, 50, 50)
         # trace_pos = (random.randrange(110,390), random.randrange(90,210))
         # print(trace_pos)
-        # if a.eyestrain():
-            # a.blink()
+        if a.eyestrain():
+            a.blink()
         # a.change_mood(3) if i<=150 or i>=300 else 0
+        a.change_mood(random.randrange(0,4)) if i<=150 or i>=300 else 0
+
         
         # a.change_mood(random.randrange(0,4)) if i<=190 or i>=290 else 0
         # sleep (1)
         a.stare_at(trace_pos=trace_pos)
-        # sleep (1.5)
+        sleep (1.5)
         # sleep(1)
 
         # a.update()
         if i<=90:
             back = False
-            sleep(1.02)
+            # sleep(1.02)
             a.move_flag = False
         elif i>=390:
             back=True
@@ -206,7 +209,7 @@ def test():
         if cv2.waitKey(5) == 27:
             break
 test()
-"""
+
 
 
 
