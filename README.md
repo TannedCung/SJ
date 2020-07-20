@@ -1,5 +1,5 @@
 # SJ's face
-This is a robot face animated with openCV. Basically, it has two eyes to move toward an inited object (human face in this case), and an neck to move its head (the neck made by 2 mini servo SG90, some cream sticks and glue).
+This is a robot face animated with openCV. Basically, it has two eyes to move toward an inited object (human face in this case), and a neck to move its head (the neck made by 2 mini servo SG90, some cream sticks and glue).
 # How it looks ???
 In normal mode:   
 ![](data/examples/normal.png)  
