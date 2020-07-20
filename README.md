@@ -31,3 +31,4 @@ if artist.eye_strain():
    artist.blink()
 ```
 The eyes will blinks every 4 seconds
+- The mood can be changed by ```artist.change_mood(mood)``` the ```mood``` can be ```"neutral", "angry", "happy", "sad"```
