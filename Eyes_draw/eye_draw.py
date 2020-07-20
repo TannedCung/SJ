@@ -5,9 +5,10 @@ import random
 from math import tan, pi
 
 class Draw():
-    def __init__(self, thickness=1, radius=20, mood=(225,225,0)):
+    def __init__(self, thickness=1, radius=30, mood=(225,225,0)):
         self.thickness = thickness
         self.radius = radius
+        self.big_radius = 125
         self.edge_shift = int(self.thickness/2.0)
         self.mood = mood
         self.black = (0,0,0)
@@ -31,9 +32,6 @@ class Draw():
             tl_pt = (int(x-width/2), int(y-height/2))
             tr_pt = (int(x+width/2), int(y-height/2))
         return tl_pt, tr_pt, bl_pt, br_pt
-
-
-
 
     def drawRoundRectangle(self, img, width, height, position, downHeight=0, angle=0):
         # print(position)
@@ -67,6 +65,50 @@ class Draw():
         cv2.ellipse(img, (bl_pt[0]+self.radius, bl_pt[1]-self.radius), 
         (self.radius, self.radius), -90, 180, 270, self.mood, self.thickness)       
         cv2.floodFill(img,mask=mask, seedPoint=position, newVal=self.mood)
+
+    def make_happy(self, img, width, height, position, downHeight=0, angle=0):
+        # print(position)
+        R = self.radius
+        self.radius = 75
+        self.drawRoundRectangle(img, width+40, height+80, (position[0], position[1]+20), downHeight, angle)
+        self.radius = R
+
+        tl_pt, tr_pt, bl_pt, br_pt = self.cal_4_corners(width+160, height+80, (position[0], position[1]+45), downHeight, angle)
+        mask = np.zeros((img.shape[0]+2, img.shape[1]+2), np.uint8)
+        #draw lines
+        #top
+        cv2.line(img, (tl_pt[0]+self.big_radius, tl_pt[1]), 
+        (tr_pt[0]-self.big_radius, tr_pt[1]), self.black, self.thickness)
+        #bottom
+        cv2.line(img, (bl_pt[0]+self.big_radius, bl_pt[1]), 
+        (br_pt[0]-self.radius-20, br_pt[1]), self.black, self.thickness)
+        #left
+        cv2.line(img, (tl_pt[0], tl_pt[1]+self.big_radius), 
+        (bl_pt[0], bl_pt[1]-self.big_radius), self.black, self.thickness)
+        #right
+        cv2.line(img, (tr_pt[0], tr_pt[1]+self.big_radius), 
+        (br_pt[0], br_pt[1]-self.big_radius), self.black, self.thickness)
+
+        #corners
+        # top lelf
+        cv2.ellipse(img, (tl_pt[0]+self.big_radius, tl_pt[1]+self.big_radius), 
+        (self.big_radius, self.big_radius), 90, 90, 180, self.black, self.thickness)
+        # top right
+        cv2.ellipse(img, (tr_pt[0]-self.big_radius, tr_pt[1]+self.big_radius), 
+        (self.big_radius, self.big_radius), -90, 0, 90, self.black, self.thickness)
+        # bot right
+        cv2.ellipse(img, (br_pt[0]-self.big_radius, br_pt[1]-self.big_radius), 
+        (self.big_radius, self.big_radius), 90, 270, 360, self.black, self.thickness)
+        # bot lelf
+        cv2.ellipse(img, (bl_pt[0]+self.big_radius, bl_pt[1]-self.big_radius), 
+        (self.big_radius, self.big_radius), -90, 180, 270, self.black, self.thickness)       
+        cv2.floodFill(img,mask=mask, seedPoint=position, newVal=self.black)
+
+    def make_angry(self, img, width, height, position, downHeight=0, angle=0):
+        R = self.radius
+        self.radius = 20
+        self.drawRoundRectangle(img, width, height, position, downHeight, angle)
+        self.radius = R
 
     def erase(self, img, width, height, position, downHeight=0, angle=0):
         tl_pt, tr_pt, bl_pt, br_pt = self.cal_4_corners(width, height, position, downHeight, angle)

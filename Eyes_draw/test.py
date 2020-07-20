@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 import time
 
+
+"""
+
 Frame_out = np.zeros((500, 640, 4),np.uint8)
 
 a = 1
@@ -19,3 +22,11 @@ while a<255:
         break
 
 cv2.destroyAllWindows()
+"""
+
+t1 = time.time()
+time.sleep(4)
+t2 = time.time()
+
+print (t2)
+print(t2-t1)
